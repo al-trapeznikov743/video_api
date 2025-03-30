@@ -1,8 +1,6 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import express, {Express} from 'express';
-
-const swaggerUiAssetPath = require('swagger-ui-dist').getAbsoluteFSPath();
+import {Express} from 'express';
 
 const swaggerOptions = {
   definition: {
@@ -19,15 +17,5 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 export const setupSwagger = (app: Express) => {
-  app.use('/api/docs', express.static(swaggerUiAssetPath));
-
-  app.use(
-    '/api',
-    swaggerUi.serve,
-    swaggerUi.setup(
-      swaggerSpec,
-      {
-        customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css'
-      }
-    ));
+  app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
